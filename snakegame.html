@@ -9,7 +9,7 @@
 
   <h1>Press the button to make the picture disappear</h1>
 
-  <canvas id="mycanvas" width="400" height="350" style="background-color: bisque;"></canvas>
+  <canvas id="mycanvas" width="375" height="375" style="background-color: bisque;"></canvas>
 
   <script>
     const canvas = document.getElementById("mycanvas");
@@ -30,22 +30,30 @@ const speed=10;
       switch(e.key){
         case 'ArrowUp':
         j=j-speed;
+        if(j<-10)
+        j=374;
         break;
         case 'ArrowDown':
         j=j+speed;
+        if(j>375)
+        j=-15;
         break;
         case 'ArrowRight':
         i=i+speed;
+        if(i>375)
+        i=-15;
         break;
         case 'ArrowLeft':
           i=i-speed;
+          if(i<-15)
+          i=375;
           break;
 
       }
       draw();
     }
     document.addEventListener('keydown', move);
-  draw();
+  draw(); 
 
     
   </script>
