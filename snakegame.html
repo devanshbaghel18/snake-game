@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Snake Game</title>
 </head>
+
 <body>
 
   <h1>Snake Game</h1>
@@ -14,48 +16,74 @@
   <script>
     const canvas = document.getElementById("mycanvas");
     const ctx = canvas.getContext("2d");
-let i=150;
-let j =200;
-const size=20;
-const speed=10;
-    ctx.strokeRect(i, j, 1, 1);
 
-    function draw(){
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      ctx.fillStyle='blue';
-      ctx.fillRect(i,j,size,size);
+    let i = 150;
+    let j = 200;
+    let sizex = 20;
+    let sizey=20
+    const speed = 10;
+    let blockx, blocky;
 
+    function generateRandomBlock() {
+      const width = 20;
+      const height = 20;
+      blockx = Math.floor(Math.random() * (canvas.width - width));
+      blocky = Math.floor(Math.random() * (canvas.height - height));
     }
-    function move(e){
-      switch(e.key){
-        case 'ArrowUp':
-        j=j-speed;
-        if(j<-10)
-        j=374;
-        break;
-        case 'ArrowDown':
-        j=j+speed;
-        if(j>375)
-        j=-15;
-        break;
-        case 'ArrowRight':
-        i=i+speed;
-        if(i>375)
-        i=-15;
-        break;
-        case 'ArrowLeft':
-          i=i-speed;
-          if(i<-15)
-          i=375;
-          break;
 
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw food (red)
+      ctx.fillStyle = 'red';
+      ctx.fillRect(blockx, blocky, 20, 20);
+
+      // Draw snake (blue)
+      ctx.fillStyle = 'blue';
+      ctx.fillRect(i, j, sizex, sizey);
+    }
+
+    function checkCollision() {
+      return (
+        i < blockx + 20 &&
+        i + sizex > blockx &&
+        j < blocky + 20 &&
+        j + sizex > blocky
+      );
+    }
+
+    function move(e) {
+      switch (e.key) {
+        case 'ArrowUp':
+          j -= speed;
+          if (j < -10) j = 374;
+          break;
+        case 'ArrowDown':
+          j += speed;
+          if (j > 375) j = -15;
+          break;
+        case 'ArrowRight':
+          i += speed;
+          if (i > 375) i = -10;
+          break;
+        case 'ArrowLeft':
+          i -= speed;
+          if (i < -10) i = 375;
+          break;
       }
+
+      if (checkCollision()) {
+        sizex += 10;
+        generateRandomBlock();
+      }
+
       draw();
     }
-    document.addEventListener('keydown', move);
-  draw(); 
 
-    
+    document.addEventListener('keydown', move);
+
+    generateRandomBlock();
+    draw();
   </script>
 
 </body>
